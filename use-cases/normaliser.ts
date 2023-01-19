@@ -1,24 +1,11 @@
+import * as levenshtein from "./levenshtein-distance";
+
 class Normaliser {
-  normalise(input: string) {
-    // string includes with regex
+  normalise(input: string, targets: string[] = ["Software engineer", "Accountant"], targetScore: number = 0.5) {
+    console.info(`Normalising
+    ${input}`);
 
-    const regex = {
-      engineer: /engineer/i,
-      accountant: /accountant/i,
-    };
-
-    const engineer = new RegExp(regex.engineer).test(input)
-      ? "Software Engineer"
-      : "";
-    const accountant = new RegExp(regex.accountant).test(input)
-      ? "Accountant"
-      : "";
-
-    const result = [engineer, accountant].find(Boolean);
-
-    console.info(result);
-
-    return result;
+    return levenshtein.getMatchByScore(input, targets, 0.5);
   }
 }
 
