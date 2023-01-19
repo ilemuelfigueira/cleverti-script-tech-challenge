@@ -1,4 +1,4 @@
-import Normaliser from "./use-cases/normaliser";
+import Normaliser from "./src/use-cases/normaliser";
 
 let jt = "Java engineer";
 const n = new Normaliser();
