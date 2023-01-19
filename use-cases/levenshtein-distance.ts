@@ -1,4 +1,4 @@
-export const getLevenshteinDistance = (a: string, b: string) => {
+export const getDistance = (a: string, b: string) => {
   const track = Array(b.length + 1)
     .fill(null)
     .map(() => Array(a.length + 1).fill(null));
@@ -25,3 +25,7 @@ export const getLevenshteinDistance = (a: string, b: string) => {
 
   return result;
 };
+
+export const getDistanceQuality = (a: string, b: string, distance: number) => {
+  return 1 - distance / Math.max(a.length, b.length)
+}
