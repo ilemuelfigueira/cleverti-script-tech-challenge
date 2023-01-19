@@ -19,5 +19,9 @@ export const getLevenshteinDistance = (a: string, b: string) => {
     }
   }
 
-  return track[b.length][a.length];
+  const result = track[b.length][a.length]
+
+  console.log(`Levenshtein distance between ${a} and ${b} is ${result}`);
+
+  return result;
 };
