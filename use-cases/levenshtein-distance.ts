@@ -40,23 +40,18 @@ export const getMatchByScore = (
   targetScore: number = 0.4
 ) => {
   const logger = new Logger("Levenshtein");
-  const distances = targets.map((target) => getDistance(a, target));
-  const qualities = distances.map((distance, index) =>
-    getDistanceQuality(targets[index], a, distance)
-  );
+  // get match by score closest to target score
+  const qualities = targets.map((t) => {
+    const distance = getDistance(a, t);
+    const quality = getDistanceQuality(a, t, distance);
+    return quality;
+  });
 
-  const match = qualities.findIndex((quality) => quality >= targetScore);
+  const highestQuality = Math.max(...qualities);
 
-  if (match > -1) {
-    logger.debug(`Match found for ${a} with score ${qualities[match]}`);
-    return targets[match];
+  if (highestQuality >= targetScore) {
+    return targets[qualities.indexOf(highestQuality)];
   }
 
-  logger.debug(`No match found for ${a}, returnin closest match`);
-  const closestMatch = qualities.reduce(
-    (a, e, i) => (e > a[1] ? [i, e] : a),
-    [0, 0]
-  )[0];
-
-  return targets[closestMatch];
+  throw new Error("No match found");
 };
