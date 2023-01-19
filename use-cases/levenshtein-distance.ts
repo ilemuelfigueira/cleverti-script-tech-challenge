@@ -29,3 +29,20 @@ export const getDistance = (a: string, b: string) => {
 export const getDistanceQuality = (a: string, b: string, distance: number) => {
   return 1 - distance / Math.max(a.length, b.length)
 }
+
+export const getMatchByScore = (a: string, targets: string[], targetScore: number = 0.4) => {
+  const distances = targets.map((target) => getDistance(a, target));
+  const qualities = distances.map((distance, index) => getDistanceQuality(targets[index], a, distance));
+
+  const match = qualities.findIndex((quality) => quality >= targetScore);
+
+  if (match > -1) {
+    console.log(`Match found for ${a}, returning ${targets[match]}`);
+    return targets[match];
+  }
+
+  console.log(`No match found for ${a}, returning closest match`);
+  const closestMatch = qualities.reduce((a, e, i) => (e > a[1] ? [i, e] : a), [0, 0])[0];
+
+  return targets[closestMatch];
+}
